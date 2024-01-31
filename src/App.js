@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Chart, CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+
+// Chart.js modüllerini kaydet
+Chart.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Tooltip, Legend);
 
 function App() {
   const [fonKodu, setFonKodu] = useState('');
