@@ -11,6 +11,11 @@ function App() {
   const [apiKey, setApiKey] = useState('');
   const [chartData, setChartData] = useState({});
 
+  const formatNumber = (numberString) => {
+    let number = parseFloat(numberString.replace(/\./g, '').replace(',', '.'));
+    return number.toFixed(3);
+  }
+
   const fetchData = async () => {
     try {
       const response = await axios.get(`https://5ygl1p232h.execute-api.eu-west-3.amazonaws.com/test/yatirimci?FonKodu=${fonKodu}`, {
@@ -24,7 +29,7 @@ function App() {
         datasets: [
           {
             label: 'Kişi Sayısı',
-            data: data.map(item => parseFloat(item["Kişi Sayısı"].replace(/\./g, '').replace(',', '.'))),
+            data: data.map(item => formatNumber(item["Kişi Sayısı"])),
             borderColor: 'rgb(75, 192, 192)',
             tension: 0.1
           },
