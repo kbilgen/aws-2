@@ -12,9 +12,13 @@ function App() {
   const [chartData, setChartData] = useState({});
 
   const formatNumber = (numberString) => {
-    let number = parseFloat(numberString.replace(/\./g, '').replace(',', '.'));
-    return number.toFixed(3);
-  }
+    let formattedString = numberString.replace(/\./g, '').replace(',', '.');
+    let number = parseFloat(formattedString);
+    // Eğer sayının ondalık kısmı iki basamaklıysa ve sayı 1000'den küçükse, sonuna '0' ekleyin
+    return number < 1000 && formattedString.includes('.') && formattedString.split('.')[1].length === 2
+      ? (number.toFixed(2) + '0')
+      : number.toString();
+  };
 
   const fetchData = async () => {
     try {
