@@ -9,7 +9,7 @@ function App() {
 
   const fetchData = async () => {
     try {
-      const response = await axios.get(`https://4ohlv1rvj8.execute-api.eu-west-3.amazonaws.com/prod/yatirimcilar?FonKodu=${fonKodu}`, {
+      const response = await axios.get(`https://5ygl1p232h.execute-api.eu-west-3.amazonaws.com/test/yatirimci?FonKodu=${fonKodu}`, {
         headers: {
           'x-api-key': apiKey
         }
