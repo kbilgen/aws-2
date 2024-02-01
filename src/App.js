@@ -15,12 +15,6 @@ function App() {
   const [paySayisiData, setPaySayisiData] = useState({});
   const [fundName, setFundName] = useState('');
 
-  const formatNumber = (numberString) => {
-    let formattedString = numberString.replace(/,/g, '.');
-    let number = parseFloat(formattedString);
-    return number;
-  };
-
   const fetchData = async () => {
     try {
       const response = await axios.get(`https://5ygl1p232h.execute-api.eu-west-3.amazonaws.com/test/yatirimci?FonKodu=${fonKodu}`, {
@@ -38,7 +32,7 @@ function App() {
         labels: data.map(item => item.Tarih),
         datasets: [{
           label: 'Kişi Sayısı',
-          data: data.map(item => formatNumber(item["Kişi Sayısı"])),
+          data: data.map(item => item["Kişi Sayısı"]),
           borderColor: 'rgb(75, 192, 192)',
           tension: 0.1
         }]
@@ -48,7 +42,7 @@ function App() {
         labels: data.map(item => item.Tarih),
         datasets: [{
           label: 'Fiyat',
-          data: data.map(item => formatNumber(item["Fiyat"])),
+          data: data.map(item => parseFloat(item["Fiyat"].replace(/\./g, '').replace(/,/g, '.'))),
           borderColor: 'rgb(255, 99, 132)',
           tension: 0.1
         }]
@@ -58,17 +52,18 @@ function App() {
         labels: data.map(item => item.Tarih),
         datasets: [{
           label: 'Fon Toplam Değer',
-          data: data.map(item => formatNumber(item["Fon Toplam Değer"])),
+          data: data.map(item => parseFloat(item["Fon Toplam Değer"].replace(/\./g, '').replace(/,/g, '.'))),
           borderColor: 'rgb(54, 162, 235)',
           tension: 0.1
         }]
       });
 
+      // Tedavüldeki Pay Sayısı verisini düzeltilmiş haliyle al
       setPaySayisiData({
         labels: data.map(item => item.Tarih),
         datasets: [{
           label: 'Tedavüldeki Pay Sayısı',
-          data: data.map(item => formatNumber(item["Tedavüldeki Pay Sayısı"])),
+          data: data.map(item => parseFloat(item["Tedavüldeki Pay Sayısı"].replace(/\./g, '').replace(/,/g, '.'))),
           borderColor: 'rgb(255, 206, 86)',
           tension: 0.1
         }]
