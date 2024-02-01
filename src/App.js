@@ -9,15 +9,16 @@ Chart.register(CategoryScale, LinearScale, LineElement, PointElement, Title, Too
 function App() {
   const [fonKodu, setFonKodu] = useState('');
   const [apiKey, setApiKey] = useState('');
-  const [chartData, setChartData] = useState({});
+  const [kisiSayisiData, setKisiSayisiData] = useState({});
+  const [fiyatData, setFiyatData] = useState({});
+  const [toplamDegerData, setToplamDegerData] = useState({});
+  const [paySayisiData, setPaySayisiData] = useState({});
+  const [fundName, setFundName] = useState('');
 
   const formatNumber = (numberString) => {
-    let formattedString = numberString.replace(/\./g, '').replace(',', '.');
+    let formattedString = numberString.replace(/,/g, '.');
     let number = parseFloat(formattedString);
-    // Eğer sayının ondalık kısmı iki basamaklıysa ve sayı 1000'den küçükse, sonuna '0' ekleyin
-    return number < 1000 && formattedString.includes('.') && formattedString.split('.')[1].length === 2
-      ? (number.toFixed(2) + '0')
-      : number.toString();
+    return number;
   };
 
   const fetchData = async () => {
@@ -28,18 +29,51 @@ function App() {
         }
       });
       const data = response.data;
-      setChartData({
+
+      // Fon Adını ayarla
+      setFundName(data[0]["Fon Adı"]);
+
+      // Veri setlerini oluştur
+      setKisiSayisiData({
         labels: data.map(item => item.Tarih),
-        datasets: [
-          {
-            label: 'Kişi Sayısı',
-            data: data.map(item => formatNumber(item["Kişi Sayısı"])),
-            borderColor: 'rgb(75, 192, 192)',
-            tension: 0.1
-          },
-          // Diğer veri setleri burada eklenebilir
-        ]
+        datasets: [{
+          label: 'Kişi Sayısı',
+          data: data.map(item => formatNumber(item["Kişi Sayısı"])),
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1
+        }]
       });
+
+      setFiyatData({
+        labels: data.map(item => item.Tarih),
+        datasets: [{
+          label: 'Fiyat',
+          data: data.map(item => formatNumber(item["Fiyat"])),
+          borderColor: 'rgb(255, 99, 132)',
+          tension: 0.1
+        }]
+      });
+
+      setToplamDegerData({
+        labels: data.map(item => item.Tarih),
+        datasets: [{
+          label: 'Fon Toplam Değer',
+          data: data.map(item => formatNumber(item["Fon Toplam Değer"])),
+          borderColor: 'rgb(54, 162, 235)',
+          tension: 0.1
+        }]
+      });
+
+      setPaySayisiData({
+        labels: data.map(item => item.Tarih),
+        datasets: [{
+          label: 'Tedavüldeki Pay Sayısı',
+          data: data.map(item => formatNumber(item["Tedavüldeki Pay Sayısı"])),
+          borderColor: 'rgb(255, 206, 86)',
+          tension: 0.1
+        }]
+      });
+
     } catch (error) {
       console.error('Veri çekme hatası', error);
     }
@@ -60,7 +94,13 @@ function App() {
         placeholder="API Anahtarı Girin"
       />
       <button onClick={fetchData}>Veriyi Çek</button>
-      {chartData.labels && <Line data={chartData} />}
+      <div>
+        {fundName && <h2>{fundName}</h2>}
+        {kisiSayisiData.labels && <Line data={kisiSayisiData} />}
+        {fiyatData.labels && <Line data={fiyatData} />}
+        {toplamDegerData.labels && <Line data={toplamDegerData} />}
+        {paySayisiData.labels && <Line data={paySayisiData} />}
+      </div>
     </div>
   );
 }
