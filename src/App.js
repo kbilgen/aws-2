@@ -24,7 +24,7 @@ function App() {
       });
       const data = response.data;
 
-      // Fon Adını ayarla...
+      // Fon Adını ayarla......
       setFundName(data[0]["Fon Adı"]);
 
       // Veri setlerini oluştur
