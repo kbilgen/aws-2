@@ -79,7 +79,7 @@ function App() {
       <input
         type="text"
         value={fonKodu}
-        onChange={(e) => setFonKodu(e.target.value)}
+        onChange={(e) => setFonKodu(e.target.value.toUpperCase())}
         placeholder="Fon Kodu Girin"
       />
       <input
