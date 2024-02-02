@@ -18,7 +18,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "preinstall": "npx npm-check-updates -u" // Yeni komutu burada ekledik
   },
   "eslintConfig": {
     "extends": [
